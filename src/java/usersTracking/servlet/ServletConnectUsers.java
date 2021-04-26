@@ -48,12 +48,15 @@ public class ServletConnectUsers extends HttpServlet {
             friends1.add(person2);
             List<Person> friends1Update = person1.getPersonList();
             person1.setPersonList(friends1Update);
+            
             this.personFacade.edit(person1);
             
-            /*List<Person> friends2 = person2.getPersonList();
+            List<Person> friends2 = person2.getPersonList();
             friends2.add(person1);
             List<Person> friends2Update = person2.getPersonList();
-            person2.setPersonList(friends2Update); */
+            person2.setPersonList(friends2Update);
+            
+            this.personFacade.edit(person2);
             
             List<Person> people = this.personFacade.findAll();
             request.setAttribute("people", people);
