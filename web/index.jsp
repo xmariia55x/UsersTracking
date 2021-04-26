@@ -21,10 +21,10 @@
     %>
     <body>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <div class="new_user">
+            <form action="ServletCreatePerson">
 
-        <form action="ServletCreatePerson">
 
-            <div class="new_user">
                 <h4>New user</h4><br>
                 <div class="mb-3">
                     <label for="nameInput" class="form-label">Name</label>
@@ -33,8 +33,10 @@
                         <button type="submit" class="btn btn-primary mb-3">Add user</button>
                     </div>
                 </div>
-            </div>
-        </form>
+
+            </form>
+            <a href="ServletGetUsers">Add connection between users</a>
+        </div>
         <div class="container-sm border" style="text-align: center; width:40%;">
             <h4>Users list</h4>
             <%
@@ -80,7 +82,7 @@
             %>
             <br>
             No users connected!
-             <% } else {
+            <% } else {
 
             %>  
             <table class="table table-hover">
@@ -90,17 +92,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                     <%            for (Person friend : friends) {
+                    <%            for (Person friend : friends) {
                     %>
                     <tr>
                         <td><%=friend.getName()%></td>
-                     
+
                     </tr>
 
                     <%      } %>
                 </tbody>
             </table>
-                 <%
+            <%
                 }
             %>
         </div>

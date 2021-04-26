@@ -22,12 +22,10 @@ import usersTracking.entities.Person;
  *
  * @author maria
  */
-@WebServlet(name = "ServletListPeople", urlPatterns = {"/ServletListPeople"})
-public class ServletListPeople extends HttpServlet {
-
+@WebServlet(name = "ServletGetUsers", urlPatterns = {"/ServletGetUsers"})
+public class ServletGetUsers extends HttpServlet {
     @EJB
     private PersonFacade personFacade;
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -39,26 +37,11 @@ public class ServletListPeople extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String str = request.getParameter("id");
-        if (str != null && str.length() > 0) {
-            Person person = this.personFacade.find(Integer.parseInt(str));
-            List<Person> friends = person.getPersonList();
-            request.setAttribute("friends", friends);
-        }
         List<Person> people = this.personFacade.findAll();
         request.setAttribute("people", people);
 
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("connectUsers.jsp");
         rd.forward(request, response);
-
-        /* 
-        String str = request.getParameter("id");
-        Person person = this.personFacade.find(Integer.parseInt(str));
-        List<Person> friends = person.getPersonList();
-        request.setAttribute("friends", friends);
-                
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-        rd.forward(request, response);*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

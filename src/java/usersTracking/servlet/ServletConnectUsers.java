@@ -22,11 +22,8 @@ import usersTracking.entities.Person;
  *
  * @author maria
  */
-@WebServlet(name = "ServletListPeople", urlPatterns = {"/ServletListPeople"})
-public class ServletListPeople extends HttpServlet {
-
-    @EJB
-    private PersonFacade personFacade;
+@WebServlet(name = "ServletConnectUsers", urlPatterns = {"/ServletConnectUsers"})
+public class ServletConnectUsers extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,28 +34,33 @@ public class ServletListPeople extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    @EJB
+    private PersonFacade personFacade;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String str = request.getParameter("id");
-        if (str != null && str.length() > 0) {
-            Person person = this.personFacade.find(Integer.parseInt(str));
-            List<Person> friends = person.getPersonList();
-            request.setAttribute("friends", friends);
+        String user1 = request.getParameter("person1_name");
+        String user2 = request.getParameter("person2_name");
+        
+        if(user1 != null && user2 != null && user1.length() > 0 && user2.length() > 0){
+            Person person1 = this.personFacade.find(Integer.parseInt(user1));
+            Person person2 = this.personFacade.find(Integer.parseInt(user2));
+            List<Person> friends1 = person1.getPersonList();
+            friends1.add(person2);
+            List<Person> friends1Update = person1.getPersonList();
+            person1.setPersonList(friends1Update);
+            this.personFacade.edit(person1);
+            
+            /*List<Person> friends2 = person2.getPersonList();
+            friends2.add(person1);
+            List<Person> friends2Update = person2.getPersonList();
+            person2.setPersonList(friends2Update); */
+            
+            List<Person> people = this.personFacade.findAll();
+            request.setAttribute("people", people);
+
+            RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+            rd.forward(request, response);
         }
-        List<Person> people = this.personFacade.findAll();
-        request.setAttribute("people", people);
-
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-        rd.forward(request, response);
-
-        /* 
-        String str = request.getParameter("id");
-        Person person = this.personFacade.find(Integer.parseInt(str));
-        List<Person> friends = person.getPersonList();
-        request.setAttribute("friends", friends);
-                
-        RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-        rd.forward(request, response);*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
